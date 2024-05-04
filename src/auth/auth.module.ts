@@ -36,8 +36,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
         port: 465,
       
         auth: {
-          user: 'noreply.recargaloya@gmail.com',
-          pass: 'abjrxyuxftyqokck',
+          user: 'noreply1.recargaloya@gmail.com',
+          pass: 'abjrxyuxftyqokck1',
         },
       },
     }),
