@@ -13,23 +13,17 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { MailerService } from '@nestjs-modules/mailer';
 import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly mailerService: MailerService,
-
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-
-
 
     private readonly jwtService: JwtService,
 
     private httpService: HttpService,
-
   ) {}
 
   async register(createUserDto: CreateUserDto) {
@@ -47,7 +41,6 @@ export class AuthService {
       const user = this.userRepository.create({
         ...userData,
         password: await bcrypt.hashSync(password, 10),
-    
       });
       await this.userRepository.save(user);
       delete user.password;
@@ -61,7 +54,7 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const { email, password,  } = loginUserDto;
+    const { email, password } = loginUserDto;
 
     const user = await this.userRepository.findOne({
       where: { email },
@@ -74,7 +67,6 @@ export class AuthService {
         fullName: true,
         phone: true,
         data: true,
-        
       },
     });
 
