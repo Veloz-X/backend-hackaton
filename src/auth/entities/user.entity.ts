@@ -1,10 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Project } from 'src/projects/entities/project.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,6 +45,12 @@ export class User {
 
   @UpdateDateColumn({})
   updateDate: Date;
+
+  @OneToMany(() => Project, (project) => project.userCreate)
+  projectCreate: Project[];
+
+  @ManyToMany(() => Project, (project) => project.usersAdmitted)
+  projectsAdmitted: Project[];
 
   @BeforeInsert()
   checkEmailInsert() {
