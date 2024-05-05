@@ -60,7 +60,7 @@ export class ProjectsService {
 
   findAll() {
     return this.projectRepository.find({
-      relations: ['userCreate','usersAdmitted'],
+      relations: ['userCreate', 'usersAdmitted'],
     });
   }
 
@@ -74,6 +74,7 @@ export class ProjectsService {
   async update(id: string, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRepository.findOne({
       where: { id },
+      relations: ['userCreate', 'usersAdmitted'],
     });
     if (!project) {
       return null;
