@@ -8,7 +8,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { HttpModule } from '@nestjs/axios';
-import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   controllers: [AuthController],
@@ -27,18 +26,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
           secret: configService.get('JWT_SECRET'),
           signOptions: { expiresIn: '12h' },
         };
-      },
-    }),
-
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        port: 465,
-      
-        auth: {
-          user: 'noreply1.recargaloya@gmail.com',
-          pass: 'abjrxyuxftyqokck1',
-        },
       },
     }),
   ],
