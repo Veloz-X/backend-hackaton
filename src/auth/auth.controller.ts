@@ -44,6 +44,14 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
+  @Get('showUsers')
+  @ApiResponse({ status: 201, description: 'Login Successfully' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 404, description: 'Token Reload' })
+  showUsers() {
+    return this.authService.showUsers();
+  }
+
   @Get('check-auth-status')
   @Auth()
   checkAuthStatus(@GetUser() user: User) {

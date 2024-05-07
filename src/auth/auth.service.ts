@@ -101,4 +101,15 @@ export class AuthService {
       'Check server logs for more details',
     );
   }
+
+  async showUsers() {
+    try {
+      const users = await this.userRepository.find();
+      return {
+        users,
+      };
+    } catch (error) {
+      this.handleDBError(error);
+    }
+  }
 }
