@@ -36,6 +36,12 @@ export class User {
   @Column('text', { nullable: true })
   bio: string;
 
+  @Column('text', { nullable: true })
+  location: string;
+
+  @Column('text', { nullable: true })
+  yearsexperience: string;
+
   @Column('text', {
     select: false,
   })

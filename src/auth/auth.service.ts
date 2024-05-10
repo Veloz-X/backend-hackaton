@@ -67,6 +67,7 @@ export class AuthService {
         fullName: true,
         phone: true,
         bio: true,
+        location: true,
       },
     });
 

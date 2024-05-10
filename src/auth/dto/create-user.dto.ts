@@ -54,6 +54,14 @@ export class CreateUserDto {
   location: string;
 
   @ApiProperty({
+    example: '5',
+    required: true,
+  })
+  @IsString()
+  @IsOptional()
+  yearsexperience: string;
+
+  @ApiProperty({
     example: ['user', 'company'],
     required: true,
   })
