@@ -5,10 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/entities/user.entity';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class ProjectsService {
   constructor(
+    private httpService: HttpService,
+
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
   ) {}
@@ -31,28 +34,22 @@ export class ProjectsService {
         relations: ['usersAdmitted'],
       });
 
-      // Verifica si el proyecto existe
       if (!project) {
-        return null; // Si no existe, devuelve null
+        return null;
       }
 
-      // Verifica si el usuario ya está admitido en el proyecto
       const isUserAdmitted = project.usersAdmitted.some(
         (u) => u.id === user.id,
       );
       if (isUserAdmitted) {
-        return project; // Si el usuario ya está admitido, no hacemos nada y devolvemos el proyecto
+        return project;
       }
-
-      // Agrega al usuario a la lista de usuarios admitidos
       project.usersAdmitted.push(user);
 
-      // Guarda los cambios en la base de datos
       await this.projectRepository.save(project);
 
-      return project; // Devuelve el proyecto actualizado
+      return project;
     } catch (error) {
-      // Maneja cualquier error que pueda ocurrir durante la operación
       console.error('Error creating postulate:', error.message);
       return null; // Devuelve null en caso de error
     }
@@ -65,11 +62,28 @@ export class ProjectsService {
   }
 
   async findOne(id: string) {
-    const test = await this.projectRepository.findOne({
+    const project = await this.projectRepository.findOne({
       where: { id },
       relations: ['userCreate', 'usersAdmitted'],
     });
-    return test;
+    const url = `https://lionfish-app-vqcsn.ondigitalocean.app/v1/job-matcher`;
+    const body = {
+      job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
+      resume_text: `Soy un apasionado programador de Python con experiencia en desarrollo de software y resolución de problemas. Mi enfoque principal ha sido el desarrollo de aplicaciones web utilizando frameworks como Django y Flask. Tengo habilidades sólidas en el diseño e implementación de bases de datos SQL y NoSQL, así como en la integración de APIs de terceros. Soy proactivo, autodidacta y siempre estoy buscando aprender nuevas tecnologías y mejorar mis habilidades de programación.`,
+    };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
+      },
+    };
+
+    const response = await this.httpService.post(url, body, config).toPromise();
+    console.log(response.data);
+    return {
+      ...project,
+      jobMatcher: response.data,
+    };
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
