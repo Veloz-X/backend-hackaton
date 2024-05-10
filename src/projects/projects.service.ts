@@ -66,24 +66,28 @@ export class ProjectsService {
       where: { id },
       relations: ['userCreate', 'usersAdmitted'],
     });
+
     const url = `https://lionfish-app-vqcsn.ondigitalocean.app/v1/job-matcher`;
-    const body = {
-      job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
-      resume_text: `Soy un apasionado programador de Python con experiencia en desarrollo de software y resolución de problemas. Mi enfoque principal ha sido el desarrollo de aplicaciones web utilizando frameworks como Django y Flask. Tengo habilidades sólidas en el diseño e implementación de bases de datos SQL y NoSQL, así como en la integración de APIs de terceros. Soy proactivo, autodidacta y siempre estoy buscando aprender nuevas tecnologías y mejorar mis habilidades de programación.`,
-    };
 
     const config = {
       headers: {
         Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
       },
     };
+    for (const user of project.usersAdmitted) {
+      const body = {
+        job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
+        resume_text: `Soy un apasionado programador de Python con experiencia en desarrollo de software y resolución de problemas. Mi enfoque principal ha sido el desarrollo de aplicaciones web utilizando frameworks como Django y Flask. Tengo habilidades sólidas en el diseño e implementación de bases de datos SQL y NoSQL, así como en la integración de APIs de terceros. Soy proactivo, autodidacta y siempre estoy buscando aprender nuevas tecnologías y mejorar mis habilidades de programación.`,
+      };
 
-    const response = await this.httpService.post(url, body, config).toPromise();
-    console.log(response.data);
-    return {
-      ...project,
-      jobMatcher: response.data,
-    };
+      const jobMatcherResponse = await this.httpService
+        .post(url, body, config)
+        .toPromise();
+
+      user.jobMatcherResponses = jobMatcherResponse.data;
+    }
+
+    return project;
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
