@@ -20,7 +20,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ unique: true })
+  @Column()
   fullName: string;
 
   @Column('jsonb', { nullable: true }) // Puedes usar jsonb para estructuras JSON más complejas

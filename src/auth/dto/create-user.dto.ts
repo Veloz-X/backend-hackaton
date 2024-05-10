@@ -5,6 +5,7 @@ import {
   IsArray,
   IsEmail,
   IsObject,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -51,6 +52,7 @@ export class CreateUserDto {
     required: true,
   })
   @IsObject()
+  @IsOptional()
   data: any | null;
 
   @ApiProperty({
