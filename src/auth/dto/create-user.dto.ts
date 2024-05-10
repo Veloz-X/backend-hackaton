@@ -14,6 +14,14 @@ import {
 
 export class CreateUserDto {
   @ApiProperty({
+    example: 'JOFFRE ANDRES VELOZ PAZMIÑO',
+    required: true,
+  })
+  @IsString()
+  @MinLength(3)
+  fullName: string;
+
+  @ApiProperty({
     example: 'empresa@gmail.com',
     required: true,
   })
@@ -22,12 +30,28 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty({
-    example: 'JOFFRE ANDRES VELOZ PAZMIÑO',
+    example: '0980061377',
     required: true,
   })
   @IsString()
-  @MinLength(3)
-  fullName: string;
+  @IsOptional()
+  phone: string;
+
+  @ApiProperty({
+    example: '7:00 AM - 5:00 PM',
+    required: true,
+  })
+  @IsString()
+  @IsOptional()
+  hoursavailable: string;
+
+  @ApiProperty({
+    example: 'Samborondon , Guayas',
+    required: true,
+  })
+  @IsString()
+  @IsOptional()
+  location: string;
 
   @ApiProperty({
     example: ['user', 'company'],
@@ -40,15 +64,12 @@ export class CreateUserDto {
   roles: string[];
 
   @ApiProperty({
-    example: {
-      yearsofexp: '5 Años',
-      language: ['Spanish', 'English'],
-      timezone: '(UTC-05:00) Bogota, Lima, Quito',
-      hoursavailable: '7:00 AM - 5:00 PM',
-      skills: ['Node.js', 'React.js', 'Angular.js'],
-      location: 'Quito, Ecuador',
-      cv: 'https://...................pdf',
-    },
+    // example: {
+    //   yearsofexp: '5 Años',
+    //   hoursavailable: '7:00 AM - 5:00 PM',
+    //   location: 'Samborondon, Guayas',
+    //   bio: 'Yo soy programdor de software con 5 años de experiencia en desarrollo de aplicaciones web y móviles. Me gusta trabajar en equipo y aprender nuevas tecnologías.',
+    // },
     required: true,
   })
   @IsObject()

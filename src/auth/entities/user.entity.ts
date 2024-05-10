@@ -24,17 +24,17 @@ export class User {
   fullName: string;
 
   @Column('jsonb', { nullable: true }) // Puedes usar jsonb para estructuras JSON más complejas
-jobMatcherResponses: {
+  jobMatcherResponses: {
     job_description_match: string;
     matching_keywords: string[];
     profile_summary: string;
-};
+  };
 
   @Column({ nullable: true })
   phone: string;
 
-  @Column('json', { nullable: true })
-  data: string;
+  @Column('text', { nullable: true })
+  bio: string;
 
   @Column('text', {
     select: false,
