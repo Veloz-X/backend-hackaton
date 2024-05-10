@@ -67,7 +67,7 @@ export class ProjectsService {
   findOne(id: string) {
     return this.projectRepository.findOne({
       where: { id },
-      relations: ['userCreate', 'userAdmitted'],
+      relations: ['userCreate', 'usersAdmitted'],
     });
   }
 

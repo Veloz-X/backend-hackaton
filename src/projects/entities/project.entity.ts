@@ -49,16 +49,16 @@ export class Project {
   @Column('bool', { default: true })
   status: boolean;
 
-  @ManyToOne(() => User, (user) => user.projectCreate)
+  @ManyToOne(() => User, (user) => user.projectCreate,{nullable:true})
   userCreate: User;
 
-  @ManyToMany(() => User, (user) => user.projectsAdmitted)
+  @ManyToMany(() => User, (user) => user.projectsAdmitted,{nullable:true})
   @JoinTable()
   usersAdmitted: User[];
 
-  @CreateDateColumn({})
+  @CreateDateColumn()
   createDate: Date;
 
-  @UpdateDateColumn({})
+  @UpdateDateColumn()
   updateDate: Date;
 }
