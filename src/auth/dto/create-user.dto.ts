@@ -13,7 +13,7 @@ import {
 
 export class CreateUserDto {
   @ApiProperty({
-    example: 'joffre.veloz@gmail.com',
+    example: 'empresa@gmail.com',
     required: true,
   })
   @IsString()

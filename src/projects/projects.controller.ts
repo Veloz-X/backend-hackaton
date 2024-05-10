@@ -23,14 +23,14 @@ export class ProjectsController {
 
   @Post()
   @ApiBearerAuth()
-  @Auth(ValidRoles.user)
+  @Auth(ValidRoles.company)
   create(@Body() createProjectDto: CreateProjectDto, @GetUser() user: User) {
     return this.projectsService.create(createProjectDto, user);
   }
 
   @Patch('postulate/:id')
   @ApiBearerAuth()
-  @Auth(ValidRoles.user, ValidRoles.company)
+  @Auth(ValidRoles.user)
   createPostulate(@Param('id') id: string, @GetUser() user: User) {
     return this.projectsService.createPostulate(id, user);
   }

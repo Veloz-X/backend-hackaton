@@ -64,11 +64,12 @@ export class ProjectsService {
     });
   }
 
-  findOne(id: string) {
-    return this.projectRepository.findOne({
+  async findOne(id: string) {
+    const test = await this.projectRepository.findOne({
       where: { id },
       relations: ['userCreate', 'usersAdmitted'],
     });
+    return test;
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
