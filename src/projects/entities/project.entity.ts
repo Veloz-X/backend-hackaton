@@ -23,9 +23,6 @@ export class Project {
   finishDate: string;
 
   @Column()
-  name: string;
-
-  @Column()
   description: string;
 
   @Column()
