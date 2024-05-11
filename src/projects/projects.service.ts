@@ -57,7 +57,7 @@ export class ProjectsService {
 
   async findAll(user: User) {
     return this.projectRepository.find({
-      where: { userCreate: {id:user.id} },
+      where: { userCreate: { id: user.id } },
       relations: ['usersAdmitted'],
     });
   }
