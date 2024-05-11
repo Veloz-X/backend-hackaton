@@ -29,6 +29,7 @@ export class User {
     matching_keywords: string[];
     profile_summary: string;
   };
+  
   @Column({ nullable: true })
   phone: string;
 
