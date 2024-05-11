@@ -91,22 +91,34 @@ export class ProjectsService {
           Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
         },
       };
-      for (const user of project.usersAdmitted) {
+      const requests = project.usersAdmitted.map(async (user) => {
         const body = {
-          job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
-          resume_text: `Soy un profecional con ${user.yearsexperience} de experiencia en el area de ${user.bio} tambien soy de la localidas de ${user.location} y me encuentro disponible de ${user.location}`,
+          job_description: `Estamos buscando una profesional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
+          resume_text: `Soy un profesional con ${user.bio} y soy de la localidad de ${user.location} `,
         };
 
-        const jobMatcherResponse = await this.httpService
-          .post(url, body, config)
-          .toPromise();
+        try {
+          const jobMatcherResponsePromise = this.httpService
+            .post(url, body, config)
+            .toPromise();
+          const jobMatcherResponse = await Promise.race([
+            jobMatcherResponsePromise,
+            timeout(5000),
+          ]);
+          user.jobMatcherResponses = jobMatcherResponse.data;
+        } catch (error) {
+          console.log(
+            `Error al procesar la solicitud para el usuario ${user.id}: ${error}`,
+          );
+          user.jobMatcherResponses = {};
+        }
+      });
 
-        user.jobMatcherResponses = jobMatcherResponse.data;
-      }
+      await Promise.all(requests);
 
       return {
         status: ok,
-        data: project
+        data: project,
       };
     } catch (error) {
       console.log(error);
