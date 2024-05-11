@@ -78,32 +78,42 @@ export class ProjectsService {
   }
 
   async findOne(id: string) {
-    const project = await this.projectRepository.findOne({
-      where: { id },
-      relations: ['userCreate', 'usersAdmitted'],
-    });
+    try {
+      const project = await this.projectRepository.findOne({
+        where: { id },
+        relations: ['userCreate', 'usersAdmitted'],
+      });
 
-    const url = `https://lionfish-app-vqcsn.ondigitalocean.app/v1/job-matcher`;
+      const url = `https://lionfish-app-vqcsn.ondigitalocean.app/v1/job-matcher`;
 
-    const config = {
-      headers: {
-        Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
-      },
-    };
-    for (const user of project.usersAdmitted) {
-      const body = {
-        job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
-        resume_text: `Soy un profecional con ${user.yearsexperience} de experiencia en el area de ${user.bio} tambien soy de la localidas de ${user.location} y me encuentro disponible de ${user.location}`,
+      const config = {
+        headers: {
+          Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
+        },
       };
+      for (const user of project.usersAdmitted) {
+        const body = {
+          job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
+          resume_text: `Soy un profecional con ${user.yearsexperience} de experiencia en el area de ${user.bio} tambien soy de la localidas de ${user.location} y me encuentro disponible de ${user.location}`,
+        };
 
-      const jobMatcherResponse = await this.httpService
-        .post(url, body, config)
-        .toPromise();
+        const jobMatcherResponse = await this.httpService
+          .post(url, body, config)
+          .toPromise();
 
-      user.jobMatcherResponses = jobMatcherResponse.data;
+        user.jobMatcherResponses = jobMatcherResponse.data;
+      }
+
+      return {
+        status: ok,
+        data: project
+      };
+    } catch (error) {
+      return {
+        status: false,
+        message: 'Error en cargar proyecto',
+      };
     }
-
-    return project;
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
