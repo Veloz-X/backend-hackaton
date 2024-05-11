@@ -53,8 +53,4 @@ export class ProjectsController {
     return this.projectsService.update(id, updateProjectDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(id);
-  }
 }

@@ -110,6 +110,7 @@ export class ProjectsService {
           };
         }
       });
+
       await Promise.all(requests);
 
       return {
@@ -136,8 +137,5 @@ export class ProjectsService {
     const updatedProject = Object.assign(project, updateProjectDto);
     return this.projectRepository.save(updatedProject);
   }
-
-  async remove(id: string) {
-    await this.projectRepository.delete(id);
-  }
+ 
 }
