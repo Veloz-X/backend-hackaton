@@ -103,9 +103,7 @@ export class ProjectsService {
             .toPromise();
           user.jobMatcherResponses = jobMatcherResponsePromise.data;
         } catch (error) {
-          console.log(
-            `Error al procesar la solicitud para el usuario ${user.id}: ${error}`,
-          );
+          user.jobMatcherResponses = {}
         }
       });
 
