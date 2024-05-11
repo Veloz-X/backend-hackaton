@@ -54,6 +54,14 @@ export class CreateUserDto {
   location: string;
 
   @ApiProperty({
+    example: 'Samborondon , Guayas',
+    required: true,
+  })
+  @IsString()
+  @IsOptional()
+  bio: string;
+
+  @ApiProperty({
     example: '5',
     required: true,
   })
