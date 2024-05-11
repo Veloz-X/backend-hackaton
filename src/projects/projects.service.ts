@@ -6,6 +6,7 @@ import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/entities/user.entity';
 import { HttpService } from '@nestjs/axios';
+import { ok } from 'assert';
 
 @Injectable()
 export class ProjectsService {
@@ -24,10 +25,7 @@ export class ProjectsService {
     const project = this.projectRepository.save(newProject);
     return project;
   }
-  async createPostulate(
-    projectId: string,
-    user: User,
-  ): Promise<Project | null> {
+  async createPostulate(projectId: string, user: User) {
     try {
       const project = await this.projectRepository.findOneOrFail({
         where: { id: projectId },
@@ -48,10 +46,16 @@ export class ProjectsService {
 
       await this.projectRepository.save(project);
 
-      return project;
+      return {
+        status: true,
+        message: 'Usuario agregado al proyecto',
+      };
     } catch (error) {
       console.error('Error creating postulate:', error.message);
-      return null; // Devuelve null en caso de error
+      return {
+        status: false,
+        message: 'Error al agregar usuario al proyecto',
+      };
     }
   }
 
