@@ -101,10 +101,7 @@ export class ProjectsService {
           const jobMatcherResponsePromise = this.httpService
             .post(url, body, config)
             .toPromise();
-          const jobMatcherResponse = await Promise.race([
-            jobMatcherResponsePromise,
-          ]);
-          user.jobMatcherResponses = jobMatcherResponse.data;
+          user.jobMatcherResponses = jobMatcherResponsePromise.data;
         } catch (error) {
           console.log(
             `Error al procesar la solicitud para el usuario ${user.id}: ${error}`,
