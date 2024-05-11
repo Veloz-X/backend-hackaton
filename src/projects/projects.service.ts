@@ -109,9 +109,10 @@ export class ProjectsService {
         data: project
       };
     } catch (error) {
+      console.log(error);
       return {
         status: false,
-        message: 'Error en cargar proyecto',
+        message: 'Error en cargar proyecto - API',
       };
     }
   }
