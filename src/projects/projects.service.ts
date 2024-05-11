@@ -77,7 +77,7 @@ export class ProjectsService {
     for (const user of project.usersAdmitted) {
       const body = {
         job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
-        resume_text: `Soy un apasionado programador de Python con experiencia en desarrollo de software y resolución de problemas. Mi enfoque principal ha sido el desarrollo de aplicaciones web utilizando frameworks como Django y Flask. Tengo habilidades sólidas en el diseño e implementación de bases de datos SQL y NoSQL, así como en la integración de APIs de terceros. Soy proactivo, autodidacta y siempre estoy buscando aprender nuevas tecnologías y mejorar mis habilidades de programación.`,
+        resume_text: `Soy un profecional con ${user.yearsexperience} de experiencia en el area de ${user.bio} tambien soy de la localidas de ${user.location} y me encuentro disponible de ${user.location}`,
       };
 
       const jobMatcherResponse = await this.httpService
