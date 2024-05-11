@@ -67,7 +67,6 @@ export class ProjectsService {
       };
     }
   }
-
   async findAll(user: User) {
     return this.projectRepository.find({
       where: { userCreate: { id: user.id } },
@@ -84,7 +83,6 @@ export class ProjectsService {
       });
 
       const url = `https://lionfish-app-vqcsn.ondigitalocean.app/v1/job-matcher`;
-
       const config = {
         headers: {
           Authorization: `Bearer _5fBJtJo9prSSWOsAHGZ9OiwJr_EArbC1XXcMXxjWW8`,
@@ -112,7 +110,6 @@ export class ProjectsService {
           };
         }
       });
-
       await Promise.all(requests);
 
       return {
