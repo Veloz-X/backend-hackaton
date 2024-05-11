@@ -36,6 +36,7 @@ export class ProjectsController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @Auth(ValidRoles.company)
   findAll(@GetUser() user: User) {
     return this.projectsService.findAll(user);

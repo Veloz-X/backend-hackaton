@@ -46,7 +46,7 @@ export class Project {
   @Column('bool', { default: true })
   status: boolean;
 
-  @ManyToOne(() => User, (user) => user.projectCreate,{nullable:true})
+  @ManyToOne(() => User, (user) => user.projectCreate)
   userCreate: User;
 
   @ManyToMany(() => User, (user) => user.projectsAdmitted,{nullable:true})
