@@ -106,7 +106,7 @@ export class ProjectsService {
           user.jobMatcherResponses = jobMatcherResponse.data;
         } catch (error) {
           user.jobMatcherResponses = {
-            job_description_match: '0%',
+            job_description_match: '-0%',
             matching_keywords: ['Sin conexion a la AI'],
             profile_summary: 'Sin conexion a la AI',
           };
