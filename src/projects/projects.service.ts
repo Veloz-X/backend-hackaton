@@ -18,12 +18,22 @@ export class ProjectsService {
   ) {}
 
   async create(createProjectDto: CreateProjectDto, user: User) {
-    const newProject = this.projectRepository.create({
-      ...createProjectDto,
-      userCreate: user,
-    });
-    const project = this.projectRepository.save(newProject);
-    return project;
+    try {
+      const newProject = this.projectRepository.create({
+        ...createProjectDto,
+        userCreate: user,
+      });
+      const project = this.projectRepository.save(newProject);
+      return {
+        status: true,
+        message: 'Proyecto creado con exito',
+      };
+    } catch (error) {
+      return {
+        status: false,
+        message: 'Error al crear proyecto',
+      };
+    }
   }
 
   async createPostulate(projectId: string, user: User) {
@@ -52,7 +62,6 @@ export class ProjectsService {
         message: 'Usuario agregado al proyecto',
       };
     } catch (error) {
-      console.error('Error creating postulate:', error.message);
       return {
         status: false,
         message: 'Error al agregar usuario al proyecto',
