@@ -26,9 +26,6 @@ export class Project {
   description: string;
 
   @Column()
-  scopes: string;
-
-  @Column()
   objective: string;
 
   @Column()

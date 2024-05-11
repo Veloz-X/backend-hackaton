@@ -27,14 +27,6 @@ export class CreateProjectDto {
 
   @ApiProperty({
     example:
-      'Crear una plataforma web y móvil que permita a las empresas de logística optimizar sus rutas de entrega, reduciendo costos y tiempos de entrega',
-    required: true,
-  })
-  @IsString()
-  scopes: string;
-
-  @ApiProperty({
-    example:
       'Implementar algoritmos de optimización de rutas, integrar sistemas de seguimiento de vehículos en tiempo real, y desarrollar una interfaz intuitiva para usuarios finales y administradores',
     required: true,
   })
