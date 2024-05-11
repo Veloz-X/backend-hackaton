@@ -103,14 +103,12 @@ export class ProjectsService {
             .toPromise();
           const jobMatcherResponse = await Promise.race([
             jobMatcherResponsePromise,
-            timeout(5000),
           ]);
           user.jobMatcherResponses = jobMatcherResponse.data;
         } catch (error) {
           console.log(
             `Error al procesar la solicitud para el usuario ${user.id}: ${error}`,
           );
-          user.jobMatcherResponses = {};
         }
       });
 
