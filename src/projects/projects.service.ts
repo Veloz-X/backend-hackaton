@@ -80,20 +80,22 @@ export class ProjectsService {
       },
     };
     for (const user of project.usersAdmitted) {
-      const body = {
-        job_description: `Estamos buscando una profecional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
-        resume_text: `Soy un profecional con ${user.yearsexperience} de experiencia en el area de ${user.bio} tambien soy de la localidas de ${user.location} y me encuentro disponible de ${user.location}`,
-      };
+      // Verificar si el campo jobMatcherResponses está vacío antes de realizar la solicitud HTTP
+      if (!user.jobMatcherResponses) {
+        const body = {
+          job_description: `Estamos buscando una profesional con estos requerimientos ${project.team_profile} y este es el objetivo del proyecto ${project.objective} para el siguiente proyecto ${project.description}`,
+          resume_text: `Soy un profesional con ${user.yearsexperience} de experiencia en el área de ${user.bio}. También soy de la localidad de ${user.location} y me encuentro disponible de ${user.location}`,
+        };
 
-      const jobMatcherResponse = await this.httpService
-        .post(url, body, config)
-        .toPromise();
+        const jobMatcherResponse = await this.httpService
+          .post(url, body, config)
+          .toPromise();
 
-      user.jobMatcherResponses = jobMatcherResponse.data;
-      const { job_description_match, matching_keywords, profile_summary } =
-        jobMatcherResponse.data;
-      console.log(job_description_match, matching_keywords, profile_summary);
+        user.jobMatcherResponses = jobMatcherResponse.data;
+      }
     }
+
+    await this.projectRepository.save(project);
 
     return project;
   }
