@@ -19,13 +19,6 @@ export class CreateProjectDto {
   finishDate: string;
 
   @ApiProperty({
-    example: '2021-05-01',
-    required: true,
-  })
-  @IsString()
-  name: string;
-
-  @ApiProperty({
     example: 'Desarrollo de Plataforma de Logística para Optimización de Rutas',
     required: true,
   })
