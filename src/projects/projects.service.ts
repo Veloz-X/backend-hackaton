@@ -6,7 +6,6 @@ import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/entities/user.entity';
 import { HttpService } from '@nestjs/axios';
-import { ok } from 'assert';
 
 @Injectable()
 export class ProjectsService {
@@ -101,16 +100,23 @@ export class ProjectsService {
           const jobMatcherResponsePromise = this.httpService
             .post(url, body, config)
             .toPromise();
-          user.jobMatcherResponses = jobMatcherResponsePromise.data;
+          const jobMatcherResponse = await Promise.race([
+            jobMatcherResponsePromise,
+          ]);
+          user.jobMatcherResponses = jobMatcherResponse.data;
         } catch (error) {
-          user.jobMatcherResponses = {}
+          user.jobMatcherResponses = {
+            job_description_match: 'Sin conexion a la AI',
+            matching_keywords: ['Sin conexion a la AI'],
+            profile_summary: 'Sin conexion a la AI',
+          };
         }
       });
 
       await Promise.all(requests);
 
       return {
-        status: ok,
+        status: true,
         data: project,
       };
     } catch (error) {
