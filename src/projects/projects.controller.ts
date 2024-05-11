@@ -36,8 +36,9 @@ export class ProjectsController {
   }
 
   @Get()
-  findAll() {
-    return this.projectsService.findAll();
+  @Auth(ValidRoles.company)
+  findAll(@GetUser() user: User) {
+    return this.projectsService.findAll(user);
   }
 
   @Get(':id')

@@ -55,9 +55,10 @@ export class ProjectsService {
     }
   }
 
-  findAll() {
+  findAll(user: User) {
     return this.projectRepository.find({
       relations: ['userCreate', 'usersAdmitted'],
+      where: { userCreate: user },
     });
   }
 
@@ -85,6 +86,8 @@ export class ProjectsService {
         .toPromise();
 
       user.jobMatcherResponses = jobMatcherResponse.data;
+      const {job_description_match, matching_keywords, profile_summary} = jobMatcherResponse.data;
+      console.log(job_description_match, matching_keywords, profile_summary);
     }
 
     return project;
