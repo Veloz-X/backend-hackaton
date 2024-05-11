@@ -72,7 +72,7 @@ export class ProjectsService {
   async findAll(user: User) {
     return this.projectRepository.find({
       where: { userCreate: { id: user.id } },
-      relations: ['usersAdmitted'],
+      relations: ['usersAdmitted', 'userCreate'],
       order: { createDate: 'DESC' },
     });
   }
